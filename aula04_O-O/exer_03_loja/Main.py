@@ -14,7 +14,7 @@ class Main:
 
         loja.mostrarLoja()
         loja.mostrarCompra()
-        loja.calcularCompra()
+        print(f'Valor Total: R$ {loja.calcularCompra():.2f}')
 
 if __name__ == '__main__':
     Main.main()

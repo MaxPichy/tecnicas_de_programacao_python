@@ -45,10 +45,13 @@ class Loja:
         print('\n ------- Listar Compra ------- \n')
         print(f'CPF do Cliente: {self.get_CliCpf()}')
         print(f'Quantidade de Itens: {self.get_QtdItens()}')
-        print(f'Valor Unitário: R$ {self.get_ValorCompra()}')
+
+        valorUnit = float(self.get_ValorCompra())
+        print(f'Valor Unitário: R${valorUnit:.2f}')
 
     def calcularCompra(self):
         qtd = float(self.get_QtdItens())
         valorCompra = float(self.get_ValorCompra())
         valorTotal = qtd * valorCompra
-        print(f'Valor Total: R$ {valorTotal:.2f}')
+        return valorTotal
+        
