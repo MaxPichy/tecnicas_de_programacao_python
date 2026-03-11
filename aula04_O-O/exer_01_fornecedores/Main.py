@@ -2,7 +2,7 @@ import os
 os.system('cls')
 
 # Importar a classe Produto
-from Fornecedor import Fornecedor
+from Fornecedores import Fornecedor
 
 class Main:
     @staticmethod
