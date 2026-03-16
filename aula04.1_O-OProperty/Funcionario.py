@@ -6,6 +6,14 @@ class Funcionario:
         self.__salAumento = 0.0
 
     @property
+    def _nome(self):
+        return self.__nome
+
+    @_nome.setter
+    def _nome(self, value):
+        self.__nome = value
+
+    @property
     def _idade(self):
         return self.__idade
 
