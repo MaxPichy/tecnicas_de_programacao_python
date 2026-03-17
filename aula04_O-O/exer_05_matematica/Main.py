@@ -9,7 +9,7 @@ class Main:
         media = Media()
 
         #Chamar os métodos
-        media.set_Aluno()
+        media.set_Aluno(input('Digite o nome do aluno: '))
         media.inserirNotas()
         media.calcularMedia()
         media.mostrarNomeMedia()

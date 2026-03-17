@@ -21,8 +21,9 @@ class Media:
     def set_Nota2(self, nota2):
         self.__nota2 = nota2
 
-    def set_Media(self, media):
-        self.__media = media
+    def get_Media(self):
+        return self.__media
+
 
     # Métodos
     def inserirNotas(self):
@@ -30,11 +31,12 @@ class Media:
         self.set_Nota2(input('Insira a Nota 2: '))
     
     def calcularMedia(self):
-        nota1 = float(self.get_Nota1)
-        nota2 = float(self.get_Nota2)
-        self.set_Media = nota1 * nota2
+        nota1 = float(self.__nota1)
+        nota2 = float(self.__nota2)
+        media = float((nota1 + nota2) / 2)
+        self.__media = media
     
     def mostrarNomeMedia(self):
         print(f'\n ------- Dados ------- \n')
         print('Nome: ', self.__aluno)
-        print(f'Média: {self.calcularMedia():.2f}')
+        print(f'Média: {self.get_Media():.2f}')
