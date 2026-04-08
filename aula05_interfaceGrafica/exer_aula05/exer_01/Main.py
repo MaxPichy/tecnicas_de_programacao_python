@@ -4,7 +4,8 @@ class Main:
     @staticmethod
     def main():
         cli = Clientes()
-        cli.rodar()
+        cli.mostrarDados()
+        cli.cadastrarCliente()
 
 if __name__ == '__main__':
     Main.main()
