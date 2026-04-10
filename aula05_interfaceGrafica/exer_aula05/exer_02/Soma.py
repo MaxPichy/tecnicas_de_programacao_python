@@ -8,8 +8,9 @@ class Soma:
         self.janela.resizable(False, False)
         self.janela.configure(background='#54118C')
 
-        self.num1 = tk.StringVar()
-        self.num2 = tk.StringVar()
+        self.num1 = tk.IntVar()
+        self.num2 = tk.IntVar()
+        self.soma = tk.IntVar()
         
         self.criar_widgets()
         
@@ -42,8 +43,8 @@ class Soma:
         self.label_resultado.pack(pady=10)
     
     def calcular(self):
-        n1 = int(self.num1.get())
-        n2 = int(self.num2.get())
-        soma = n1 + n2
+        n1 = self.num1.get()
+        n2 = self.num2.get()
+        self.soma = n1 + n2
 
-        self.label_resultado.config(text=f'Soma: {soma}')
+        self.label_resultado.config(text=f'Soma: {self.soma}')

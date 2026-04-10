@@ -8,9 +8,10 @@ class Media:
         self.janela.resizable(False, False)
         self.janela.configure(background='#AE798A')
 
-        self.n1 = tk.StringVar()
-        self.n2 = tk.StringVar()
-        self.n3 = tk.StringVar()
+        self.n1 = tk.DoubleVar()
+        self.n2 = tk.DoubleVar()
+        self.n3 = tk.DoubleVar()
+        self.media = tk.DoubleVar()
 
         self.criar_widgets()
         
@@ -49,10 +50,11 @@ class Media:
         self.label_resultado.pack(pady=10)
     
     def calcular(self):
-        n1 = float(self.n1.get())
-        n2 = float(self.n2.get())
-        n3 = float(self.n3.get())
-        media = float((n1 + n2 + n3) / 3)
+        n1 = self.n1.get()
+        n2 = self.n2.get()
+        n3 = self.n3.get()
+        self.media = (n1 + n2 + n3) / 3
+        media = self.media
 
         if(media >= 7):
             self.label_resultado.config(text=f'Média: {media:.2f} \nResultado: Aprovado ')

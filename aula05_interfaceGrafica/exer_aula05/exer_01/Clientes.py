@@ -13,11 +13,11 @@ class Clientes:
         self.telefone = tk.StringVar()
         self.endereco = tk.StringVar()
         
-        self.mostrarDados()
+        self.criar_widgets()
         
         self.janela.mainloop()
     
-    def mostrarDados(self):
+    def criar_widgets(self):
         self.label1 = tk.Label(self.janela, text='Digite o nome:', fg='white', background='#16555A')
         self.label1.pack(pady=5)
         
@@ -61,4 +61,7 @@ class Clientes:
         telefone = self.telefone.get()
         endereco = self.endereco.get()
 
+        self.mostrarDados(nome, email, telefone, endereco)
+    
+    def mostrarDados(self, nome, email, telefone, endereco):
         self.label_resultado.config(text=f'Nome: {nome}\n Email: {email}\n Telefone: {telefone}\n Endereço: {endereco}')
