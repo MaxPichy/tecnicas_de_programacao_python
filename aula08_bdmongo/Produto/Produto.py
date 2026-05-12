@@ -9,7 +9,7 @@ class Produto:
         self.tela.geometry('800x600')
         self.tela.configure(background="#9ef1de")
         
-        self.tela.title = ('Cadastro de Produtos')
+        self.tela.title('Cadastro de Produtos')
         
         self.conexao = pymongo.MongoClient('mongodb://localhost:27017/')
         self.db = self.conexao['cadastro_produtos']
@@ -33,13 +33,15 @@ class Produto:
         Label(self.tela, text="Quantidade:", bg="#9ef1de").place(x=450, y=170)
         self.txt_qtd = Entry(self.tela, width=20)
         self.txt_qtd.place(x=530, y=170)
+        self.txt_qtd.bind('<KeyRelease>', self.calcular_total)
 
         Label(self.tela, text="Preço:", bg="#9ef1de").place(x=130, y=200)
         self.txt_preco = Entry(self.tela, width=20)
         self.txt_preco.place(x=190, y=200)
+        self.txt_preco.bind('<KeyRelease>', self.calcular_total)
 
         Label(self.tela, text="Total:", bg="#9ef1de").place(x=450, y=200)
-        self.txt_total = Entry(self.tela, width=25, state='disabled')
+        self.txt_total = Entry(self.tela, width=25, state='readonly')
         self.txt_total.place(x=490, y=200)
         
         self.lbl_resultado = Label(self.tela, text='', bg='#9ef1de')
@@ -58,7 +60,7 @@ class Produto:
         self.btn_excluir = Button(self.tela, text="Excluir",image=self.foto_excluir,compound=TOP,command=self.excluir)
         self.btn_excluir.place(x=220, y=280)
         
-        self.btn_alterar = Button(self.tela, text="Alterar",image=self.foto_alterar,compound=TOP,command=self.atualizar)
+        self.btn_alterar = Button(self.tela, text="Alterar",image=self.foto_alterar,compound=TOP,command=self.alterar)
         self.btn_alterar.place(x=310, y=280)
 
         self.btn_consultar = Button(self.tela, text="Consultar",image=self.foto_consultar,compound=TOP,command=self.consultar)        
@@ -66,16 +68,28 @@ class Produto:
 
         self.btn_sair = Button(self.tela, text="Sair",image=self.foto_sair,compound=RIGHT,command=self.sair)  
         self.btn_sair.place(x=490, y=280)
+    
+    def calcular_total(self, event = None):
+        qtd = int(self.txt_qtd.get())
+        preco = float(self.txt_preco.get())
+        total = qtd * preco
         
-    def cadastrar(self):
-        total = self.txt_qtd * self.txt_preco
+        self.txt_total.config(state='normal')
+        self.txt_total.delete(0, END)
+        self.txt_total.insert(0, f"{total:.2f}")
+        self.txt_total.config(state='readonly')
+                
+        return total
+    
+    def cadastrar(self):       
+        total = self.calcular_total()
         
         try:
             produto = {
-                "código": int(self.txt_codigo.get()),
+                "codigo": int(self.txt_codigo.get()),
                 "nome": self.txt_nome.get(),
-                "quantidade": int(self.txt_idade.get()),
-                "preco": float(self.txt_end.get()),
+                "quantidade": int(self.txt_qtd.get()),
+                "preco": float(self.txt_preco.get()),
                 "total": total,
             }
 
@@ -86,41 +100,43 @@ class Produto:
         except:
             self.lbl_resultado.config(text="Erro ao salvar")
             
-    def atualizar(self):
+    def alterar(self):
         codigo = int(self.txt_codigo.get())
+        total = self.calcular_total()
         
-        total = self.txt_qtd * self.txt_preco
+        self.limpar()
 
         self.collection.update_one(
-            {"código": codigo},
+            {"codigo": codigo},
             {"$set": {
                 "nome": self.txt_nome.get(),
-                "quantidade": int(self.txt_idade.get()),
-                "preco": float(self.txt_end.get()),
+                "quantidade": int(self.txt_qtd.get()),
+                "preco": float(self.txt_preco.get()),
                 "total": total,
             }}
         )
 
-        self.limpar()
         self.lbl_resultado.config(text="Atualizado!")
         
     def excluir(self):
         codigo = int(self.txt_codigo.get())
         
-        self.collection.delete_one({"código": codigo})
+        self.collection.delete_one({"codigo": codigo})
         self.limpar()
         self.lbl_resultado.config(text="Excluído!")
         
     def consultar(self):
         codigo = int(self.txt_codigo.get())
-
-        resultado = self.collection.find_one({"código": codigo})
+        resultado = self.collection.find_one({"codigo": codigo})
+        
+        self.limpar()
 
         if resultado:
             self.txt_nome.insert(END, resultado["nome"])
             self.txt_qtd.insert(END, resultado["quantidade"])
-            self.txt_preco.insert(END, resultado["preco"])
-            self.txt_total.insert(END, resultado["total"])
+            self.txt_preco.insert(END, f"{resultado['preco']:.2f}")
+            self.txt_total.insert(0, f"{self.calcular_total():.2f}")
+            self.txt_total.config(state='readonly')
         else:
             self.lbl_resultado.config(text="Não encontrado")
         
