@@ -74,6 +74,10 @@ class Servico:
         self.btn_sair = Button(self.tela, text="Sair",image=self.foto_sair,compound=RIGHT,command=self.sair)  
         self.btn_sair.place(x=490, y=280)
         
+        #self.relampago = PhotoImage(file='icones/rel_marquinhos.png')
+        #self.katchau = Label(self.tela, image=self.relampago, bg='#FC8E8E')
+        #self.katchau.place(x=245, y=400)
+        
     def salvar(self):
         try:
             servico = {
