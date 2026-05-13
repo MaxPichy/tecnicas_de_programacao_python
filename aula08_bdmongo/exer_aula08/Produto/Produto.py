@@ -103,8 +103,6 @@ class Produto:
     def alterar(self):
         codigo = int(self.txt_codigo.get())
         total = self.calcular_total()
-        
-        self.limpar()
 
         self.collection.update_one(
             {"codigo": codigo},
@@ -128,8 +126,6 @@ class Produto:
     def consultar(self):
         codigo = int(self.txt_codigo.get())
         resultado = self.collection.find_one({"codigo": codigo})
-        
-        self.limpar()
 
         if resultado:
             self.txt_nome.insert(END, resultado["nome"])
