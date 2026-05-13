@@ -12,7 +12,7 @@ class Produto:
         self.tela.title('Cadastro de Produtos')
         
         self.conexao = pymongo.MongoClient('mongodb://localhost:27017/')
-        self.db = self.conexao['atividades_tp']
+        self.db = self.conexao['cadastro_produtos']
         self.collection = self.db['produtos']
         
         self.criar_componentes()
