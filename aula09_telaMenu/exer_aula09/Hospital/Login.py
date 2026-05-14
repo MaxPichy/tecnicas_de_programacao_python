@@ -76,4 +76,3 @@ class Login:
 
         if resposta == "yes":
             self.tela.destroy()
-

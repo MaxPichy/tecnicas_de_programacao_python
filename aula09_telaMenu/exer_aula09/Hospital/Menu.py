@@ -39,16 +39,14 @@ class TelaMenu:
  
     # IMAGEM FUNDO   
     def carregar_imagem_fundo(self):
-        caminho = "img\imagem_fundo.jpg"
-
-        if os.path.exists(caminho):
-            imagem = Image.open(caminho)
+        try:
+            imagem = Image.open('icones/fundo_hospital.webp')
             imagem = imagem.resize((1000, 700))
             self.imagem_fundo = ImageTk.PhotoImage(imagem)
 
             self.lbl_fundo = Label(self.tela, image=self.imagem_fundo)
             self.lbl_fundo.place(x=0, y=0)
-        else:
+        except EOFError:
             self.tela.configure(bg="#afcfe4")
 
     # CRIAR MENU   
@@ -77,13 +75,12 @@ class TelaMenu:
         self.tela.config(menu=barra_menus)
 
     # ÍCONES
-
     def carregar_img(self):
-        self.logo = self.carregar_png(r"img\logo.png", 70, 70)
-        self.animais = self.carregar_png(r"img\logo_animais.png", 80, 80)
-        self.clientes = self.carregar_png(r"img\logo_usuarios.png", 80, 80)
-        self.servicos = self.carregar_png(r"img\logo_servicos.png", 80, 80)
-        self.logout_img = self.carregar_png(r"img\logout.png", 80, 80)
+        self.logo = self.carregar_png("icones\logo.png", 70, 70)
+        self.animais = self.carregar_png("icones\logo_animais.png", 80, 80)
+        self.clientes = self.carregar_png("icones\logo_usuarios.png", 80, 80)
+        self.servicos = self.carregar_png("icones\logo_servicos.png", 80, 80)
+        self.logout_icones = self.carregar_png("icones\logout.png", 80, 80)
 
     def carregar_png(self, caminho, largura, altura):
         if os.path.exists(caminho):
@@ -95,13 +92,13 @@ class TelaMenu:
     # BOTÕES   
     def criar_botoes(self):
 
-        Label(self.tela,text="SISTEMA MENU",image=self.logo,compound="top",font=("Arial", 10, "bold")).place(x=880, y=560)
+        Label(self.tela,text="MENU HOSPITAL",image=self.logo,compound="top",font=("Arial", 10, "bold")).place(x=880, y=560)
 
-        Button(self.tela,text="Animais",image=self.animais,compound="top",command=self.abrir_animais, width=100).place(x=100, y=200)
+        Button(self.tela,text="Consultas",image=self.consultas,compound="top",command=self.abrir_animais, width=100).place(x=100, y=200)
 
-        Button(self.tela,text="Clientes",image=self.clientes,compound="top",command=self.abrir_clientes,width=100).place(x=320, y=200)
+        Button(self.tela,text="Pacientes",image=self.pacientes,compound="top",command=self.abrir_clientes,width=100).place(x=320, y=200)
 
-        Button(self.tela,text="Serviços",image=self.servicos,compound="top",command=self.servicos_msg,width=100).place(x=540, y=200)
+        Button(self.tela,text="Tratamentos",image=self.tratamentos,compound="top",command=self.servicos_msg,width=100).place(x=540, y=200)
 
         Button(self.tela,text="Logout",image=self.logout_img,compound="top",command=self.logout,width=100).place(x=760, y=200)
  
@@ -117,7 +114,7 @@ class TelaMenu:
         subprocess.run([sys.executable, 'login.py'])
     
     def servicos_msg(self):
-        messagebox.showinfo('Serviços', 'Tela em Desenvolvimento')
+        messagebox.showinfo('Tratamentos', 'Tela em Desenvolvimento')
 
 # EXECUTAR
 if __name__ == "__main__":
