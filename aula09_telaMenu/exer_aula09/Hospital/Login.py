@@ -3,8 +3,7 @@ from tkinter import messagebox
 import subprocess
 import sys
 
-class TelaLogin:
-
+class Login:
     def __init__(self):
         self.tela = Tk()
         self.tela.title("Acesso ao Sistema")
@@ -16,11 +15,9 @@ class TelaLogin:
         self.tela.resizable(False, False)
 
         self.criar_componentes()
-
         self.tela.mainloop()
     
     # CONFIGURAÇÃO DA TELA
-    
     def centralizar_tela(self):
         largura_screen = self.tela.winfo_screenwidth()
         altura_screen = self.tela.winfo_screenheight()
@@ -29,9 +26,9 @@ class TelaLogin:
         print(largura_screen, altura_screen)
         self.tela.geometry("%dx%d+%d+%d" % (self.largura,self.altura, posx,posy))
         self.tela.resizable(False,False)
+        self.tela.config(bg="#afcfe4")
  
     # COMPONENTES
-   
     def criar_componentes(self):
 
         Label(self.tela, text="Usuário").place(x=50, y=60)
@@ -51,13 +48,10 @@ class TelaLogin:
         self.foto_sair = PhotoImage(file=r"icones/sair.png")
 
     def criar_botoes(self):
-
         Button(self.tela,text="Acessar", image=self.foto_acesso,compound=TOP,command=self.validar_acesso).place(x=250, y=50)
-
         Button(self.tela,text="Sair",image=self.foto_sair,compound=TOP,command=self.sair).place(x=320, y=50)
     
     # FUNÇÕES
-   
     def validar_acesso(self):
         usuario = self.txt_usuario.get()
         senha = self.txt_senha.get()

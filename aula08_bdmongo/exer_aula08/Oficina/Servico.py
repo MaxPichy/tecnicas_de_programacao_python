@@ -1,7 +1,9 @@
 from tkinter import *
 from tkinter import scrolledtext
+from PIL import Image, ImageTk
 import pymongo
 import sys
+import itertools
 from tkinter import ttk
 
 class Servico:
@@ -25,25 +27,25 @@ class Servico:
     def criar_componentes(self):
         Label(self.tela, text="Cadastro de Serviços",font=("Arial", 30, "bold"),bg="#FC8E8E", fg="black").place(x=200, y=50)
 
-        Label(self.tela, text="Código:", bg="#FC8E8E", fg="black").place(x=130, y=110)
+        Label(self.tela, text="Código:", bg="#FC8E8E", fg="black").place(x=200, y=110)
         self.txt_codigo = Entry(self.tela, width=20)
-        self.txt_codigo.place(x=190, y=110)
+        self.txt_codigo.place(x=250, y=110)
 
-        Label(self.tela, text="Serviço:", bg="#FC8E8E", fg="black").place(x=130, y=140)
+        Label(self.tela, text="Serviço:", bg="#FC8E8E", fg="black").place(x=200, y=140)
         self.txt_servico = Entry(self.tela, width=20)
-        self.txt_servico.place(x=190, y=140)
+        self.txt_servico.place(x=250, y=140)
 
-        Label(self.tela, text="Cliente:", bg="#FC8E8E", fg="black").place(x=130, y=170)
+        Label(self.tela, text="Cliente:", bg="#FC8E8E", fg="black").place(x=200, y=170)
         self.txt_cliente = Entry(self.tela, width=20)
-        self.txt_cliente.place(x=190, y=170)
+        self.txt_cliente.place(x=250, y=170)
         
-        Label(self.tela, text="Data:", bg="#FC8E8E", fg="black").place(x=130, y=200)
+        Label(self.tela, text="Data:", bg="#FC8E8E", fg="black").place(x=200, y=200)
         self.txt_data = Entry(self.tela, width=20)
-        self.txt_data.place(x=190, y=200)
+        self.txt_data.place(x=250, y=200)
 
-        Label(self.tela, text="Preço:", bg="#FC8E8E", fg="black").place(x=130, y=230)
+        Label(self.tela, text="Preço:", bg="#FC8E8E", fg="black").place(x=200, y=230)
         self.txt_preco = Entry(self.tela, width=20)
-        self.txt_preco.place(x=190, y=230)
+        self.txt_preco.place(x=250, y=230)
         
         Label(self.tela, text="Descrição:", bg="#FC8E8E", fg="black").place(x=480, y=110)
         self.txt_desc = scrolledtext.ScrolledText(self.tela, width=30, height=5, wrap=WORD)
@@ -74,9 +76,48 @@ class Servico:
         self.btn_sair = Button(self.tela, text="Sair",image=self.foto_sair,compound=RIGHT,command=self.sair)  
         self.btn_sair.place(x=490, y=280)
         
-        #self.relampago = PhotoImage(file='icones/rel_marquinhos.png')
-        #self.katchau = Label(self.tela, image=self.relampago, bg='#FC8E8E')
-        #self.katchau.place(x=245, y=400)
+        self.relampago_img = PhotoImage(file='icones/rel_marquinhos.png')
+        self.relampago = Label(self.tela, image=self.relampago_img, bg='#FC8E8E')
+        self.relampago.place(x=245, y=400)
+        
+        try:
+            self.katchau_gif = Image.open("icones/katchau.gif")
+            tamanho = (150, 150)
+            self.frames = []
+
+            try:
+                while True:
+                    frame = self.katchau_gif.copy()
+                    frame = frame.resize(tamanho, Image.Resampling.LANCZOS)
+                    self.frames.append(ImageTk.PhotoImage(frame))
+                    self.katchau_gif.seek(len(self.frames))
+            except EOFError:
+                pass
+            
+            if self.frames:
+                self.katchau = Label(self.tela, bg='#FC8E8E')
+                self.katchau.place(x=20, y=10) 
+                
+                self.frame_index = 0
+                self.animar()  
+            else:
+                self.katchau = Label(self.tela, font=("Arial", 30), bg='#FC8E8E')
+                self.katchau.place(x=50, y=50)
+                
+        except Exception as e:
+            print(f"Erro ao carregar GIF: {e}")
+        
+    def animar(self):
+        if hasattr(self, 'frames') and self.frames and hasattr(self, 'katchau'):
+            self.katchau.config(image=self.frames[self.frame_index])
+            self.frame_index = (self.frame_index + 1) % len(self.frames)
+            
+            try:
+                delay = self.katchau_gif.info().get('duration', 100)
+            except:
+                delay = 100 
+            
+            self.tela.after(delay, self.animar)
         
     def salvar(self):
         try:
