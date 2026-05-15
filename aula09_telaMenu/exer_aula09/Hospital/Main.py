@@ -1,9 +1,9 @@
-from Login import Login
+from LoginH import LoginH
 
 class Main:
     @staticmethod
     def main():
-        h = Login()
+        h = LoginH()
         
 if __name__ == "__main__":
     Main.main()
